@@ -25,6 +25,4 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
 
-from django.db import models
 
-# Create your models here.

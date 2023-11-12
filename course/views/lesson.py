@@ -2,6 +2,7 @@ from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, R
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from course.models import Lesson
+from course.paginators.lesson import LessonPaginator
 from course.serializers.lesson import LessonSerializer
 from premissions import IsOwner, IsModerator
 
@@ -48,10 +49,12 @@ class LessonUpdateAPIView(UpdateAPIView):
         Attributes:
             serializer_class (LessonSerializer): Сериализатор, используемый для преобразования JSON в объект урока.
             queryset (QuerySet): Набор объектов уроков, используемых для поиска урока, который нужно обновить.
+            pagination_class (LessonPaginator): Пагинатор, для отображения уроков на странице.
     """
     serializer_class = LessonSerializer
     queryset = Lesson.objects.all()
     permission_classes = [IsOwner | IsModerator | IsAdminUser]
+    pagination_class = LessonPaginator
 
 
 class LessonRetrieveAPIView(RetrieveAPIView):

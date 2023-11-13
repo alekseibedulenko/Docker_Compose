@@ -40,6 +40,9 @@ class Payment(models.Model):
         verbose_name="способ оплаты"
     )
 
+    session = models.CharField(max_length=350, verbose_name='current session for paying', unique=True, null=True,
+                               blank=True)
+
     def __str__(self):
         return f'{self.user.email} - {self.date} - {self.amount}'
 

@@ -2,6 +2,8 @@ import os
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
+
+from payment.services import get_stripe_session
 from users.models import User, UserRoles
 from course.models import Course, Lesson
 from payment.models import Payment
@@ -89,11 +91,11 @@ class Command(BaseCommand):
         for _ in range(20):
             user = random.choice(users)
             payment_date = fake.date_between(start_date='-30d', end_date='today')
-            amount = Decimal(random.uniform(10, 100))
             payment_method = random.choice(['cash', 'transfer'])
-
             is_course = random.choice([True, False])
+            amount = Decimal(random.uniform(10, 100))
             course_or_lesson = random.choice(courses) if is_course else random.choice(lessons)
+            session = get_stripe_session(course_or_lesson, user)
 
             Payment.objects.create(
                 user=user,
@@ -102,4 +104,5 @@ class Command(BaseCommand):
                 lesson=course_or_lesson if not is_course else None,
                 amount=amount,
                 payment_method=payment_method,
+                session=session.id,
             )

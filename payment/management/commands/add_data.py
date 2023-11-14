@@ -95,7 +95,7 @@ class Command(BaseCommand):
             is_course = random.choice([True, False])
             amount = Decimal(random.uniform(10, 100))
             course_or_lesson = random.choice(courses) if is_course else random.choice(lessons)
-            session = get_stripe_session(course_or_lesson, user)
+            session = get_stripe_session(course_or_lesson, user, amount)
 
             Payment.objects.create(
                 user=user,

@@ -2,12 +2,12 @@ import stripe
 from lms_drf.settings import STRIPE_API_KEY
 
 
-def get_stripe_session(course, user):
+def get_stripe_session(course, user, amount):
     stripe.api_key = STRIPE_API_KEY
 
     product_for_stripe = stripe.Product.create(name=course.title)
     price_for_stripe = stripe.Price.create(
-        unit_amount=70,  # todo - change model for price
+        unit_amount=int(amount * 100),  # todo - change model for price
         currency="usd",
         product=f"{product_for_stripe.id}",
     )

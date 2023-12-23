@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'lms_drf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DATABASES_NAME'),
-        'USER': 'postgres',
-        'PASSWORD': os.getenv('DATABASES_PASSWORD'),
-        'HOST': 'localhost',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
         'PORT': '5432',
     }
 }
@@ -182,8 +182,8 @@ CACHES = {
         'LOCATION': os.getenv('CACHES_LOCATION'), }}
 
 # Celery broker settings
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_HOST')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_BROKER_HOST')
 
 CELERY_TASK_TRACK_STARTED = True
 # CELERY_TASK_TIME_LIMIT = 30 * 60
